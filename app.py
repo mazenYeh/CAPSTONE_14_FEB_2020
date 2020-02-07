@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
 from flask_cors import CORS
 
-from models import db_drop_and_create_all, setup_db
+from models import setup_db
 from auth import AuthError, requires_auth
 
 
@@ -14,7 +14,7 @@ def create_app(test_config=None):
     setup_db(app)
     CORS(app)
 
-    db_drop_and_create_all()
+    # db_drop_and_create_all()
 
     @app.route('/')
     def index():
