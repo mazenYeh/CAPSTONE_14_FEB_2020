@@ -86,7 +86,7 @@ class Session(db.Model):
     name = Column(String)
     trainer_id = Column(Integer)
     client_id = Column(Integer)
-    date = Column(DateTime)
+    # date = Column(DateTime)
 
     def insert(self):
         db.session.add(self)
