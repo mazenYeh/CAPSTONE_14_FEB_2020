@@ -21,23 +21,80 @@ def setup_db(app, database_path=database_path):
     db.create_all()
 
 
-'''
-Person
-Have title and release year
-'''
-class Person(db.Model):  
-  __tablename__ = 'People'
+class Trainer(db.Model):  
+    __tablename__ = 'Trainers'
 
-  id = Column(Integer, primary_key=True)
-  name = Column(String)
-  catchphrase = Column(String)
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    gender = Column(String)
+    age = Column(Integer)
 
-  def __init__(self, name, catchphrase=""):
-    self.name = name
-    self.catchphrase = catchphrase
+#   def __init__(self, name, catchphrase=""):
+#     self.name = name
+#     self.catchphrase = catchphrase
 
-  def format(self):
-    return {
-      'id': self.id,
-      'name': self.name,
-      'catchphrase': self.catchphrase}
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'gender': self.gender,
+            'age': self.age
+        }
+    
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+    
+    def commit(self):
+        db.session.commit()
+
+class Client(db.Model):
+    __tablename__ = 'Clients'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    gender = Column(String)
+    age = Column(Integer)
+
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'gender': self.gender,
+            'age': self.age
+        }
+    
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+    
+    def commit(self):
+        db.session.commit()
+
+class Session(db.Model):
+    __tablename__ = 'Sessions'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    trainer_id = Column(Integer)
+    client_id = Column(Integer)
+    date = Column(DateTime)
+
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+    
+    def commit(self):
+        db.session.commit()

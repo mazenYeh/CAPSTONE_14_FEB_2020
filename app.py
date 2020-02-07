@@ -15,7 +15,6 @@ def create_app(test_config=None):
     CORS(app)
 
     @app.route('/')
-    @requires_auth('get:drinks-detail')
     def index():
         return jsonify({
             'success': True,
