@@ -14,19 +14,24 @@ def create_app(test_config=None):
     setup_db(app)
     CORS(app)
 
-    # db_drop_and_create_all()
-
-
     @app.route('/')
     def index():
         return jsonify({
             'success': True,
-            'message': 'Welcome the home page!'
+            'message': 'Welcome to the home page!'
         })
 
     @app.route('/trainers', methods=['GET'])
     def get_trainers():
-        trainers = Trainer.query.all()
+        try:
+            trainers = Trainer.query.all()
+            if trainers is None:
+                raise AuthError({
+                    'code': 'no_trainers',
+                    'description': 'There are no trainers on system yet.'
+                    }, 404)
+        except AuthError as e:
+            abort(e.status_code, e.error)
 
         trainers_formatted = []
 
@@ -40,22 +45,70 @@ def create_app(test_config=None):
     
     @app.route('/trainers', methods=['POST'])
     def add_trainer():
-        request_data = request.get_json()
+        try:
+            request_data = request.get_json()
 
-        new_trainer = Trainer()
-        new_trainer.name = request_data['name']
-        new_trainer.gender = request_data['gender']
-        new_trainer.age = request_data['age']
+            new_trainer = Trainer()
+            new_trainer.name = request_data['name']
+            new_trainer.gender = request_data['gender']
+            new_trainer.age = request_data['age']
 
-        new_trainer.insert()
+            new_trainer.insert()
+        except:
+        
 
         return jsonify({
             'success': True,
             'new_trainer': new_trainer.format()
         })
 
-    return app
+    @app.route('/trainers/<id>', methods=['DELETE'])
+    def delete_trainer(id):
+        try:
+            target_trainer = Trainer.query.filter_by(id=id).first()
+            if target_trainer is None:
+                raise AuthError({
+                    'code': 'trainer_not_found',
+                    'description': 'There is no trainer with the reuqested id to delete.'
+                }, 404)
+        except AuthError as e:
+            abort(e.status_code, e.error)
 
+        target_trainer.delete()
+
+        return jsonify({
+            'success': True,
+            'deleted_trainer': target_trainer
+        })
+
+    # error handling
+
+    @app.errorhandler(400)
+    def authError_bad_request(error):
+        return jsonify({
+                        "success": False, 
+                        "error": 400,
+                        "message": error.description
+                        }), 400
+
+    @app.errorhandler(401)
+    def authError_unauthorized(error):
+        return jsonify({
+                        "success": False, 
+                        "error": 401,
+                        "message": error.description
+                        }), 401
+
+    @app.errorhandler(404)
+    def authError_not_found(error):
+        return jsonify({
+                        "success": False, 
+                        "error": 404,
+                        "message": error.description
+                        }), 404
+
+
+    return app
 
 
 app = create_app()

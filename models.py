@@ -5,7 +5,6 @@ import json
 
 
 database_path = os.environ['DATABASE_URL']
-# database_path = "postgres://gvfqcmnyvybbuk:4f753f507fa24736846c136fb5ca7c7b897f23462bffcdd9d0a0425034358222@ec2-52-202-185-87.compute-1.amazonaws.com:5432/d1vj4ufa22k8h8"
 
 db = SQLAlchemy()
 
@@ -20,10 +19,6 @@ def setup_db(app, database_path=database_path):
     db.init_app(app)
     db.create_all()
 
-# def db_drop_and_create_all():
-#     db.drop_all()
-#     db.create_all()
-
 
 class Trainer(db.Model):  
     __tablename__ = 'Trainers'
@@ -32,10 +27,6 @@ class Trainer(db.Model):
     name = Column(String)
     gender = Column(String)
     age = Column(Integer)
-
-#   def __init__(self, name, catchphrase=""):
-#     self.name = name
-#     self.catchphrase = catchphrase
 
     def format(self):
         return {
