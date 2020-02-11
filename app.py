@@ -45,18 +45,15 @@ def create_app(test_config=None):
     
     @app.route('/trainers', methods=['POST'])
     def add_trainer():
-        try:
-            request_data = request.get_json()
+        request_data = request.get_json()
 
-            new_trainer = Trainer()
-            new_trainer.name = request_data['name']
-            new_trainer.gender = request_data['gender']
-            new_trainer.age = request_data['age']
+        new_trainer = Trainer()
+        new_trainer.name = request_data['name']
+        new_trainer.gender = request_data['gender']
+        new_trainer.age = request_data['age']
 
-            new_trainer.insert()
-        except:
+        new_trainer.insert()
         
-
         return jsonify({
             'success': True,
             'new_trainer': new_trainer.format()
