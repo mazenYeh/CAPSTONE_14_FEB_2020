@@ -30,6 +30,7 @@ def create_app(test_config=None):
         })
 
     @app.route('/trainers', methods=['GET'])
+    @requires_auth('get:trainers')
     def get_trainers():
         try:
             trainers = Trainer.query.all()
@@ -52,6 +53,7 @@ def create_app(test_config=None):
         })
     
     @app.route('/trainers', methods=['POST'])
+    @requires_auth('post:trainers')
     def add_trainer():
         request_data = request.get_json()
 
@@ -68,6 +70,7 @@ def create_app(test_config=None):
         })
 
     @app.route('/trainers/<id>', methods=['DELETE'])
+    @requires_auth('delete:trainers')
     def delete_trainer(id):
         try:
             target_trainer = Trainer.query.filter_by(id=id).first()
@@ -87,6 +90,7 @@ def create_app(test_config=None):
         })
 
     @app.route('/trainers/<id>', methods=['PATCH'])
+    @requires_auth('patch:trainers')
     def patch_trainer(id):
         request_data = request.get_json()
 
