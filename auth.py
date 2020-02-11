@@ -8,7 +8,10 @@ import base64
 
 AUTH0_DOMAIN = 'ymfsnd.eu.auth0.com'
 ALGORITHMS = ['RS256']
-API_AUDIENCE = 'coffee_shop'
+API_AUDIENCE = 'gym'
+CLIENT_ID = 'xWzOC0Vr7MxNCHqG1RdAQO58n7sjwC5i'
+CALLBACK_URI = 'https://ym-fsnd-capstone.herokuapp.com/welcome'
+LOGIN_URI = "https://" + AUTH0_DOMAIN + "/authorize?audience=" + API_AUDIENCE + "&response_type=token&client_id=" + CLIENT_ID + "&redirect_uri=" + CALLBACK_URI
 
 ## AuthError Exception
 

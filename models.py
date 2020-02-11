@@ -44,7 +44,7 @@ class Trainer(db.Model):
         db.session.delete(self)
         db.session.commit()
     
-    def commit(self):
+    def update(self):
         db.session.commit()
 
 class Client(db.Model):
@@ -71,7 +71,7 @@ class Client(db.Model):
         db.session.delete(self)
         db.session.commit()
     
-    def commit(self):
+    def update(self):
         db.session.commit()
 
 class Session(db.Model):
@@ -91,5 +91,5 @@ class Session(db.Model):
         db.session.delete(self)
         db.session.commit()
     
-    def commit(self):
+    def update(self):
         db.session.commit()

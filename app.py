@@ -1,11 +1,11 @@
 import os
-from flask import Flask, request, abort, jsonify
+from flask import Flask, request, abort, jsonify, redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
 from flask_cors import CORS
 
 from models import setup_db, Trainer, Client, Session
-from auth import AuthError, requires_auth
+from auth import AuthError, requires_auth, LOGIN_URI
 
 
 def create_app(test_config=None):
@@ -16,9 +16,17 @@ def create_app(test_config=None):
 
     @app.route('/')
     def index():
+        return redirect(LOGIN_URI, 302)
+        # return jsonify({
+        #     'success': True,
+        #     'message': 'Welcome to the home page!'
+        # })
+    
+    @app.route('/welcome')
+    def welcome():
         return jsonify({
-            'success': True,
-            'message': 'Welcome to the home page!'
+            'success': True, 
+            'message': 'Login was successful, welcome!'
         })
 
     @app.route('/trainers', methods=['GET'])
@@ -72,6 +80,34 @@ def create_app(test_config=None):
             abort(e.status_code, e.error)
 
         target_trainer.delete()
+
+        return jsonify({
+            'success': True,
+            'deleted_trainer': target_trainer.format()
+        })
+
+    @app.route('/trainers/<id>', methods=['PATCH'])
+    def patch_trainer(id):
+        request_data = request.get_json()
+
+        try:
+            target_trainer = Trainer.query.filter_by(id=id).first()
+            if target_trainer is None:
+                raise AuthError({
+                    'code': 'trainer_not_found',
+                    'description': 'There is no trainer with the reuqested id to modify.'
+                }, 404)
+        except AuthError as e:
+            abort(e.status_code, e.error)
+
+        if 'name' in request_data:
+            target_trainer.name = request_data['name']
+        if 'gender' in request_data:
+            target_trainer.gender = request_data['gender']
+        if 'age' in request_data:
+            target_trainer.age = request_data['age']
+
+        target_trainer.update()
 
         return jsonify({
             'success': True,
