@@ -75,7 +75,7 @@ def create_app(test_config=None):
 
         return jsonify({
             'success': True,
-            'deleted_trainer': target_trainer
+            'deleted_trainer': target_trainer.format()
         })
 
     # error handling
