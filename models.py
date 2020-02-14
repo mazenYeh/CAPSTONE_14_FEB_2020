@@ -3,10 +3,11 @@ from sqlalchemy import Column, String, Integer, create_engine
 from flask_sqlalchemy import SQLAlchemy
 import json
 
+# Uncomment line 8 and comment lines 9 & 10 to have the same source code running on heroku
 
-database_path = os.environ['DATABASE_URL']
-# database_name = "gym_service_test"
-# database_path = "postgres://{}/{}".format('localhost:5432', database_name)
+# database_path = os.environ['DATABASE_URL']
+database_name = "gym_service_test"
+database_path = "postgres://{}/{}".format('localhost:5432', database_name)
 
 db = SQLAlchemy()
 
