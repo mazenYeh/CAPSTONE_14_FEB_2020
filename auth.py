@@ -118,8 +118,6 @@ def verify_decode_jwt(token):
                     'description': 'Incorrect claims. Please, check the audience and issuer.'
                 }, 401)
             except Exception as e:
-                print('//////////////')
-                print(str(e))
                 raise AuthError({
                     'code': 'invalid_header',
                     'description': 'Unable to parse authentication token.'

@@ -63,7 +63,7 @@ def create_app(test_config=None):
         })
     
     @app.route('/trainers', methods=['POST'])
-    # @requires_auth('post:trainers')
+    @requires_auth('post:trainers')
     def add_trainer():
         request_data = request.get_json()
 
@@ -92,7 +92,7 @@ def create_app(test_config=None):
         })
 
     @app.route('/trainers/<id>', methods=['DELETE'])
-    # @requires_auth('delete:trainers')
+    @requires_auth('delete:trainers')
     def delete_trainer(id):
         try:
             target_trainer = Trainer.query.filter_by(id=id).first()
@@ -112,7 +112,7 @@ def create_app(test_config=None):
         })
 
     @app.route('/trainers/<id>', methods=['PATCH'])
-    # @requires_auth('patch:trainers')
+    @requires_auth('patch:trainers')
     def patch_trainer(id):
         request_data = request.get_json()
 
@@ -144,7 +144,7 @@ def create_app(test_config=None):
     # clients related end-points #
     ##############################
     @app.route('/clients', methods=['GET'])
-    # @requires_auth('get:clients')
+    @requires_auth('get:clients')
     def get_clients():
         if request.get_json():
             abort(405)
@@ -170,7 +170,7 @@ def create_app(test_config=None):
         })
     
     @app.route('/clients', methods=['POST'])
-    # @requires_auth('post:clients')
+    @requires_auth('post:clients')
     def add_client():
         request_data = request.get_json()
 
@@ -199,7 +199,7 @@ def create_app(test_config=None):
         })
 
     @app.route('/clients/<id>', methods=['DELETE'])
-    # @requires_auth('delete:clients')
+    @requires_auth('delete:clients')
     def delete_client(id):
         try:
             target_client = Client.query.filter_by(id=id).first()
@@ -219,7 +219,7 @@ def create_app(test_config=None):
         })
 
     @app.route('/clients/<id>', methods=['PATCH'])
-    # @requires_auth('patch:clients')
+    @requires_auth('patch:clients')
     def patch_client(id):
         request_data = request.get_json()
 
@@ -251,7 +251,7 @@ def create_app(test_config=None):
     # sessions related end-points #
     ###############################
     @app.route('/sessions', methods=['GET'])
-    # @requires_auth('get:sessions')
+    @requires_auth('get:sessions')
     def get_sessions():
         if request.get_json():
             abort(405)
@@ -277,7 +277,7 @@ def create_app(test_config=None):
         })
     
     @app.route('/sessions', methods=['POST'])
-    # @requires_auth('post:sessions')
+    @requires_auth('post:sessions')
     def add_session():
         request_data = request.get_json()
 
@@ -306,7 +306,7 @@ def create_app(test_config=None):
         })
 
     @app.route('/sessions/<id>', methods=['DELETE'])
-    # @requires_auth('delete:sessions')
+    @requires_auth('delete:sessions')
     def delete_session(id):
         try:
             target_session = Session.query.filter_by(id=id).first()
@@ -326,7 +326,7 @@ def create_app(test_config=None):
         })
 
     @app.route('/sessions/<id>', methods=['PATCH'])
-    # @requires_auth('patch:sessions')
+    @requires_auth('patch:sessions')
     def patch_session(id):
         request_data = request.get_json()
 
