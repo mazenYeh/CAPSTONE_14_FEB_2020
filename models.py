@@ -4,7 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 
 
-database_path = os.environ['DATABASE_URL']
+# database_path = os.environ['DATABASE_URL']
+database_name = "gym_service_test"
+database_path = "postgres://{}/{}".format('localhost:5432', database_name)
 
 db = SQLAlchemy()
 
@@ -82,6 +84,14 @@ class Session(db.Model):
     trainer_id = Column(Integer)
     client_id = Column(Integer)
     # date = Column(DateTime)
+
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'trainer_id': self.trainer_id,
+            'client_id': self.client_id
+        }
 
     def insert(self):
         db.session.add(self)
